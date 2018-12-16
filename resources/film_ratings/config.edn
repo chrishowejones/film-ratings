@@ -1,0 +1,9 @@
+{:duct.core/project-ns  film-ratings
+ :duct.core/environment :production
+
+ :duct.module/logging {}
+ :duct.module.web/site {}
+ :duct.module/sql {}
+
+ :duct.module/ataraxy
+ {}}
