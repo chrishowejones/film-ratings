@@ -6,4 +6,7 @@
  :duct.module/sql {}
 
  :duct.module/ataraxy
+ {[:get "/"] [:index]}
+
+ :film-ratings.handler/index
  {}}
