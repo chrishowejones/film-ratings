@@ -23,6 +23,7 @@
    :profiles/dev {}
    :project/dev  {:source-paths   ["dev/src"]
                   :resource-paths ["dev/resources"]
-                  :dependencies   [[integrant/repl "0.2.0"]
+                  :dependencies   [[ring-mock "0.1.5"] ;; add for testing handlers
+                                   [integrant/repl "0.2.0"]
                                    [eftest "0.4.1"]
                                    [kerodon "0.9.0"]]}})
