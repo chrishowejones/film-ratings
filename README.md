@@ -1,6 +1,7 @@
 # film-ratings
 
-FIXME: description
+Simple web application to enter films and their ratings.
+Uses Duct micro-framework developed by Weavejester (James Greaves).
 
 ## Developing
 
@@ -67,4 +68,4 @@ lein test
 
 ## Legal
 
-Copyright © 2018 FIXME
+Copyright © 2018 Chris Howe-Jones
