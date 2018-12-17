@@ -1,5 +1,6 @@
 (ns film-ratings.views.template
-  (:require [hiccup.page :refer [html5 include-css include-js]]))
+  (:require [hiccup.page :refer [html5 include-css include-js]]
+            [hiccup.form :as form]))
 
 (defn page
   [content]
@@ -17,5 +18,11 @@
        [:div.navbar.navbar-dark.bg-dark.shadow-sm
         [:div.container.d-flex.justify-content-between
          [:h1.navbar-brand.align-items-center.text-light "Film Ratings"]]]
-       [:section.text-center
+       [:section
         content]]]]))
+
+(defn labeled-radio [group]
+  (fn [checked? label]
+    [:div.form-check.col
+     (form/radio-button {:class "form-check-input"} group checked? label)
+     (form/label {:class "form-check-label"} (str "label-" label) (str label))]))
