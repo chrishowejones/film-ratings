@@ -24,6 +24,7 @@
    :project/dev  {:source-paths   ["dev/src"]
                   :resource-paths ["dev/resources"]
                   :dependencies   [[ring-mock "0.1.5"] ;; add for testing handlers
+                                   [com.gearswithingears/shrubbery "0.4.1"] ;; add for testing protocols
                                    [integrant/repl "0.2.0"]
                                    [eftest "0.4.1"]
                                    [kerodon "0.9.0"]]}})
