@@ -3,7 +3,7 @@
             [hiccup.form :refer [form-to label text-field text-area submit-button]]
             [ring.util.anti-forgery :refer [anti-forgery-field]]))
 
-(defn create-film
+(defn create-film-view
   []
   (page
    [:div.container.jumbotron.bg-light
