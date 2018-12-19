@@ -16,10 +16,12 @@
     (let [film (reduce-kv (fn [m k v] (assoc m (keyword k) v))
                           {}
                           (dissoc film-form "__anti-forgery-token"))
-          id (boundary.film/create-film db film)]
-      (if (int? id)
-        [::response/ok (views.film/film-view film)]
-        [::response/ok (format "Film named '%s' was not added." (:name film))]))))
+          result (boundary.film/create-film db film)
+          alerts (if (:id result)
+                   {:messages ["Film added"]}
+                   result)]
+
+      [::response/ok (views.film/film-view film alerts)])))
 
 (defmethod ig/init-key :film-ratings.handler.film/list [_ {:keys [db]}]
   (fn [_]
@@ -30,5 +32,5 @@
   (fn [{[_ id] :ataraxy/result}]
     (let [film (boundary.film/fetch-film db id)]
       (if film
-        [::response/ok (views.film/film-view film)]
+        [::response/ok (views.film/film-view film {})]
         [::response/ok (format "Film for id %s not found." id)]))))

@@ -10,7 +10,8 @@
                  [duct/module.sql "0.4.2"]
                  [hiccup "1.0.5"]
                  [org.postgresql/postgresql "42.1.4"]
-                 [org.xerial/sqlite-jdbc "3.21.0.1"]]
+                 [org.xerial/sqlite-jdbc "3.21.0.1"]
+                 [org.clojure/tools.logging "0.4.1"]]
   :plugins [[duct/lein-duct "0.10.6"]]
   :main ^:skip-aot film-ratings.main
   :resource-paths ["resources" "target/resources"]

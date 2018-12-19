@@ -26,7 +26,7 @@
                (submit-button {:class "btn btn-primary text-center"} "Add")])]]))
 
 (defn film-view
-  [{:keys [name description rating]}]
+  [{:keys [name description rating]} {:keys [errors messages]}]
   (page
    [:div.container.jumbotron.bg-light
     [:div.row
@@ -41,4 +41,12 @@
     (when rating
       [:div.row
        [:div.col-2 "Rating:"]
-       [:div.col-10 rating]])]))
+       [:div.col-10 rating]])
+    (when errors
+      (for [error (doall errors)]
+       [:div.row.alert.alert-danger
+        [:div.col error]]))
+    (when messages
+      (for [message (doall messages)]
+       [:div.row.alert.alert-success
+        [:div.col message]]))]))
