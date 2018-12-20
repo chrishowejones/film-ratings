@@ -26,12 +26,14 @@
 (defmethod ig/init-key :film-ratings.handler.film/list [_ {:keys [db]}]
   (fn [_]
     (let [films-list (boundary.film/list-films db)]
-      [::response/ok (views.film/list-films-view films-list)
-       #_(format "<p>A list of films<p>%s</p>" (string/join "</p><p>" films-list))])))
+      [::response/ok (views.film/list-films-view films-list)])))
 
-(defmethod ig/init-key :film-ratings.handler.film/show [_ {:keys [db]}]
-  (fn [{[_ id] :ataraxy/result}]
-    (let [film (boundary.film/fetch-film db id)]
-      (if film
-        [::response/ok (views.film/film-view film {})]
-        [::response/ok (format "Film for id %s not found." id)]))))
+(defmethod ig/init-key :film-ratings.handler.film/show-search [_ _]
+  (fn [_]
+    [::response/ok (views.film/search-film-by-name-view)]))
+
+(defmethod ig/init-key :film-ratings.handler.film/find-by-name [_ {:keys [db]}]
+  (fn [{[_ search-form] :ataraxy/result :as request}]
+    (let [name (get search-form "name")
+          films-list (boundary.film/fetch-films-by-name db name)]
+      [::response/ok (views.film/list-films-view films-list)])))

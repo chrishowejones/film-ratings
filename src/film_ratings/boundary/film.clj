@@ -6,16 +6,16 @@
 
 (defprotocol FilmDatabase
   (list-films [db])
-  (fetch-film [db id])
+  (fetch-films-by-name [db name])
   (create-film [db film]))
 
 (extend-protocol FilmDatabase
   duct.database.sql.Boundary
   (list-films [{db :spec}]
     (jdbc/query db ["SELECT * FROM film"]))
-  (fetch-film [{db :spec} id]
-    (first
-     (jdbc/query db ["SELECT * FROM film WHERE id = ?" id])))
+  (fetch-films-by-name [{db :spec} name]
+    (let [search-term (str "%" name "%")]
+     (jdbc/query db ["SELECT * FROM film WHERE name like ?" search-term])))
   (create-film [{db :spec} film]
     (try
      (let [result (jdbc/insert! db :film film)]

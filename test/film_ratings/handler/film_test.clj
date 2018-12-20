@@ -4,7 +4,7 @@
             [clojure.test :refer [deftest is testing]]
             [film-ratings.boundary.film
              :refer
-             [create-film fetch-film FilmDatabase]]
+             [create-film FilmDatabase]]
             film-ratings.handler.film
             [integrant.core :as ig]
             [ring.mock.request :as mock]
@@ -17,24 +17,6 @@
 (def film-database-stub
   (shrubbery/stub FilmDatabase
         {:list-films films}))
-
-(deftest check-fetch-handler
-  (testing "Check that calling fetch handler returns specified film"
-    (let [film-database-mock (shrubbery/mock FilmDatabase {:fetch-film (first films)})
-          handler (ig/init-key :film-ratings.handler.film/show {:db film-database-mock})
-          ataraxy-handler (ataraxy.core/handler {:routes '{[:get "/get-film/" id] [:film/show ^int id]}
-                                                   :handlers {:film/show handler}})
-          response (ataraxy-handler (mock/request :get "/get-film/1"))]
-      (is (= 200 (:status response)))
-      (is (= "Star Wars IV: A New Hope"
-             (re-find #"Star Wars IV: A New Hope" (:body response))))))
-  (testing "Check that calling fetch handler passes correct argument to database"
-    (let [film-database-mock (shrubbery/mock FilmDatabase {:fetch-film (first films)})
-          handler (ig/init-key :film-ratings.handler.film/show {:db film-database-mock})
-          ataraxy-handler (ataraxy.core/handler {:routes '{[:get "/get-film/" id] [:film/show ^int id]}
-                                                   :handlers {:film/show handler}})
-          _ (ataraxy-handler (mock/request :get "/get-film/2"))]
-      (is (shrubbery/received? film-database-mock fetch-film [2])))))
 
 (deftest check-list-handler
   (testing "Check that calling list handler returns a list of films"
