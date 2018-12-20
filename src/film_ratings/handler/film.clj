@@ -20,13 +20,14 @@
           alerts (if (:id result)
                    {:messages ["Film added"]}
                    result)]
-
       [::response/ok (views.film/film-view film alerts)])))
 
 (defmethod ig/init-key :film-ratings.handler.film/list [_ {:keys [db]}]
   (fn [_]
     (let [films-list (boundary.film/list-films db)]
-      [::response/ok (views.film/list-films-view films-list)])))
+      (if (seq films-list)
+       [::response/ok (views.film/list-films-view films-list {})]
+       [::response/ok (views.film/list-films-view [] {:messages ["No films found."]})]))))
 
 (defmethod ig/init-key :film-ratings.handler.film/show-search [_ _]
   (fn [_]
@@ -36,4 +37,6 @@
   (fn [{[_ search-form] :ataraxy/result :as request}]
     (let [name (get search-form "name")
           films-list (boundary.film/fetch-films-by-name db name)]
-      [::response/ok (views.film/list-films-view films-list)])))
+      (if (seq films-list)
+        [::response/ok (views.film/list-films-view films-list {})]
+        [::response/ok (views.film/list-films-view [] {:messages [(format "No films found for %s." name)]})]))))
