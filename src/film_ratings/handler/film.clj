@@ -26,7 +26,8 @@
 (defmethod ig/init-key :film-ratings.handler.film/list [_ {:keys [db]}]
   (fn [_]
     (let [films-list (boundary.film/list-films db)]
-      [::response/ok (format "<p>A list of films<p>%s</p>" (string/join "</p><p>" films-list))])))
+      [::response/ok (views.film/list-films-view films-list)
+       #_(format "<p>A list of films<p>%s</p>" (string/join "</p><p>" films-list))])))
 
 (defmethod ig/init-key :film-ratings.handler.film/show [_ {:keys [db]}]
   (fn [{[_ id] :ataraxy/result}]

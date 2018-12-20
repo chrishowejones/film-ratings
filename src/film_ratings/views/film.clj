@@ -25,23 +25,28 @@
               [:div.form-group.col-12.text-center
                (submit-button {:class "btn btn-primary text-center"} "Add")])]]))
 
+(defn- film-attributes-view
+  [name description rating]
+  [:div
+   [:div.row
+    [:div.col-2 "Name:"]
+    [:div.col-10 name]]
+   (when description
+     [:div.row
+      [:div.col-2 "Description:"]
+      [:div.col-10 description]])
+   (when rating
+     [:div.row
+      [:div.col-2 "Rating:"]
+      [:div.col-10 rating]])])
+
 (defn film-view
   [{:keys [name description rating]} {:keys [errors messages]}]
   (page
    [:div.container.jumbotron.bg-light
     [:div.row
      [:h2 "Film"]]
-    [:div.row
-     [:div.col-2 "Name:"]
-     [:div.col-10 name]]
-    (when description
-      [:div.row
-       [:div.col-2 "Description:"]
-       [:div.col-10 description]])
-    (when rating
-      [:div.row
-       [:div.col-2 "Rating:"]
-       [:div.col-10 rating]])
+    (film-attributes-view name description rating)
     (when errors
       (for [error (doall errors)]
        [:div.row.alert.alert-danger
@@ -50,3 +55,13 @@
       (for [message (doall messages)]
        [:div.row.alert.alert-success
         [:div.col message]]))]))
+
+(defn list-films-view
+  [films]
+  (page
+   [:div.container.jumbotron.bg-light
+    [:div.row [:h2 "Films"]]
+    (for [{:keys [name description rating]} (doall films)]
+      [:div
+       (film-attributes-view name description rating)
+       [:hr]])]))
