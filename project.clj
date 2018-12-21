@@ -1,6 +1,6 @@
-(defproject film-ratings "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+(defproject film-ratings "0.1.0"
+  :description "Film rating demo app using Duct."
+  :url "http://github.com/chrishowejones/film-ratings"
   :min-lein-version "2.0.0"
   :dependencies [[org.clojure/clojure "1.9.0"]
                  [duct/core "0.6.2"]
