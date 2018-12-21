@@ -3,7 +3,7 @@
 
  :duct.module/logging {}
  :duct.module.web/site {}
- :duct.module/sql {:database-url "jdbc:sqlite:db/dev.sqlite"}
+ :duct.module/sql {}
 
  :duct.module/ataraxy
  {[:get "/"] [:index]
