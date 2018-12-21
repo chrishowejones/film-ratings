@@ -12,7 +12,9 @@
                  [org.postgresql/postgresql "42.1.4"]
                  [org.xerial/sqlite-jdbc "3.21.0.1"]
                  [org.clojure/tools.logging "0.4.1"]]
-  :plugins [[duct/lein-duct "0.10.6"]]
+  :plugins [[duct/lein-duct "0.10.6"]
+            [test2junit "1.4.2"]]
+  :test2junit-output-dir ~(or (System/getenv "CIRCLE_TEST_REPORTS") "target/test2junit")
   :main ^:skip-aot film-ratings.main
   :uberjar-name "film-ratings.jar"
   :resource-paths ["resources" "target/resources"]

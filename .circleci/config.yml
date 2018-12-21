@@ -16,7 +16,9 @@ jobs:
           paths:
             - ~/.m2
           key: film-ratings-{{ checksum "project.clj" }}
-      - run: lein do test, uberjar
-      - store_artifacts: # upload test summary for display in Artifacts
+      - run: lein do test2junit, uberjar
+      - store_test_results:
+          path: target/test2junit/xml
+      - store_artifacts: # upload jar to Artifacts
           path: target/uberjar/film-ratings.jar
           destination: uberjar
