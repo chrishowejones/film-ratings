@@ -1,5 +1,7 @@
 # film-ratings
 
+[![CircleCI](https://circleci.com/gh/chrishowejones/film-ratings.svg?style=svg)](https://circleci.com/gh/chrishowejones/film-ratings)
+
 Simple web application to enter films and their ratings.
 Uses Duct micro-framework developed by Weavejester (James Greaves).
 
