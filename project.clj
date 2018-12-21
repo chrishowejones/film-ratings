@@ -15,6 +15,7 @@
   :plugins [[duct/lein-duct "0.10.6"]
             [test2junit "1.4.2"]]
   :test2junit-output-dir "test2junit"
+  :test2junit-run-ant true
   :main ^:skip-aot film-ratings.main
   :uberjar-name "film-ratings.jar"
   :resource-paths ["resources" "target/resources"]
