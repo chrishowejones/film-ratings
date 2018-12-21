@@ -22,3 +22,6 @@ jobs:
       - store_artifacts: # upload jar to Artifacts
           path: target/film-ratings.jar
           destination: uberjar
+      - store_artifacts: # upload html test report
+          path: test2junit/html
+          destination: test-report
