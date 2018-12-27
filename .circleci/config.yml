@@ -29,3 +29,34 @@ jobs:
       - store_artifacts: # upload jar to Artifacts
           path: target/film-ratings.jar
           destination: uberjar/film-ratings.jar
+      - persist-to-workspace:
+          root: ~/cci-film-ratings
+          paths:
+            - target
+  publish-github-release:
+    docker:
+      - image: cibuilds/github:0.12
+    steps:
+      - attach-workspace:
+          at: ./artifacts
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            VERSION=${CIRCLE_TAG}
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./artifacts/
+workflows:
+  version: 2
+  main:
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
+      - publish-github-release:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+\.\d+$/
