@@ -48,7 +48,6 @@ jobs:
             VERSION=${CIRCLE_TAG}
             echo "RUNNING JOB: ${CIRCLE_JOB}"
             echo "TAG: ${VERSION}"
-            echo "GITHUB_TOKEN: ${GITHUB_TOKEN}"
             echo "CIRCLE_PROJECT_USERNAME: ${CIRCLE_PROJECT_USERNAME}"
             echo "CIRCLE_PROJECT_REPONAME: ${CIRCLE_PROJECT_REPONAME}"
             echo "CIRCLE_SHA1: ${CIRCLE_SHA1}"
