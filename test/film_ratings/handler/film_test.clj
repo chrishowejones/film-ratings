@@ -4,7 +4,7 @@
             [clojure.test :refer [deftest is testing]]
             [film-ratings.boundary.film
              :refer
-             [create-film FilmDatabase]]
+             [create-film list-films FilmDatabase]]
             film-ratings.handler.film
             [integrant.core :as ig]
             [ring.mock.request :as mock]
