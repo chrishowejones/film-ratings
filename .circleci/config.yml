@@ -45,7 +45,11 @@ jobs:
             VERSION=${CIRCLE_TAG}
             echo "RUNNING JOB: ${CIRCLE_JOB}"
             echo "TAG: ${VERSION}"
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} /artifacts/target/film-ratings.jar
+            echo "GITHUB_TOKEN: ${GITHUB_TOKEN}"
+            echo "CIRCLE_PROJECT_USERNAME: ${CIRCLE_PROJECT_USERNAME}"
+            echo "CIRCLE_PROJECT_REPONAME: ${CIRCLE_PROJECT_REPONAME}"
+            echo "CIRCLE_SHA1: ${CIRCLE_SHA1}"
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete 0.1.0 /artifacts/target/film-ratings.jar
 workflows:
   version: 2
   main:
