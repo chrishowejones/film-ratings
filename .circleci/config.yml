@@ -37,6 +37,9 @@ jobs:
     docker:
       - image: cibuilds/github:0.12
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "df:b0:9d:84:9a:f6:ca:e6:c6:78:10:ab:cc:0b:2c:d0"
       - attach-workspace:
           at: /artifacts
       - run:
