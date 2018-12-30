@@ -2,9 +2,7 @@
   (:require [ataraxy.coerce :refer [->int]]
             [ataraxy.core :as ataraxy]
             [clojure.test :refer [deftest is testing]]
-            [film-ratings.boundary.film
-             :refer
-             [create-film list-films FilmDatabase]]
+            [film-ratings.boundary.film :as boundary]
             film-ratings.handler.film
             [integrant.core :as ig]
             [ring.mock.request :as mock]
@@ -15,7 +13,7 @@
             {:id 3 :name "Home Alone" :rating 3}])
 
 (def film-database-stub
-  (shrubbery/stub FilmDatabase
+  (shrubbery/stub boundary/FilmDatabase
         {:list-films films}))
 
 (deftest check-list-handler
@@ -33,7 +31,7 @@
 (deftest check-create-handler
   (testing "Check that calling the create handler returns a view of the new film inserted"
     (let [new-film {:name "My film" :description "Film description" :rating "3"}
-          film-database-mock (shrubbery/mock FilmDatabase {:create-film new-film})
+          film-database-mock (shrubbery/mock boundary/FilmDatabase {:create-film new-film})
           handler (ig/init-key :film-ratings.handler.film/create {:db film-database-mock})
           ataraxy-handler (ataraxy.core/handler {:routes '{[:post "/add-film" {film-form :form-params}] [:film/create film-form]}
                                                  :handlers {:film/create handler}})
@@ -44,7 +42,7 @@
 
   (testing "Check that calling the create handler passes correct argument to database"
     (let [new-film {:name "My film" :description "Film description" :rating "3"}
-          film-database-mock (shrubbery/mock FilmDatabase)
+          film-database-mock (shrubbery/mock boundary/FilmDatabase)
           handler (ig/init-key :film-ratings.handler.film/create {:db film-database-mock})
           _ (handler (assoc (mock/request :post "/add-film") :ataraxy/result [:form-params new-film]))]
-      (is (shrubbery/received? film-database-mock create-film [new-film])))))
+      (is (shrubbery/received? film-database-mock film-ratings.boundary.film/create-film [])))))
