@@ -5,11 +5,11 @@ services:
     ports:
       - '5432:5432'
     environment:
-      - "FILLA_DB_USER=test"
-      - "FILLA_DB_PASSWORD=password"
-      - "FILLA_DB_DATABASE=mytest"
+      - "DB_USER=test"
+      - "DB_PASSWORD=password"
+      - "DB_DATABASE=mytest"
       - "POSTGRES_PASSWORD=mysecretpassword"
-    build: './db'
+    build: './database'
     networks:
       infranet:
         aliases:
