@@ -16,3 +16,4 @@ pom.xml.asc
 /test2junit
 build.xml
 /cloverage
+/postgresdata

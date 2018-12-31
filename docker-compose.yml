@@ -5,10 +5,11 @@ services:
     ports:
       - '5432:5432'
     environment:
-      - "DB_USER=test"
-      - "DB_PASSWORD=password"
-      - "DB_DATABASE=mytest"
-      - "POSTGRES_PASSWORD=mysecretpassword"
+      - "POSTGRES_USER=test"
+      - "POSTGRES_PASSWORD=password"
+      - "POSTGRES_DB=mytest"
+    volumes:
+      - ./postgresdata:/var/lib/postgresql/data
     build: './database'
     networks:
       infranet:
