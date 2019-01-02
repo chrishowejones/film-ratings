@@ -3,7 +3,13 @@
 
  :duct.module/logging {}
  :duct.module.web/site {}
- :duct.module/sql {:database-url "jdbc:postgresql://localhost/mytest?user=test&password=password"}
+ :duct.module/sql {}
+ :duct.database.sql/hikaricp {:jdbc-url "jdbc:postgresql://postgres/filmdb"
+                              :username "filmuser"
+                              :password #duct/env [ "DB_PASSWORD" ]}
+
+ :duct.server.http/jetty
+ {:port    #duct/env [ "SERVER_PORT" Int ]}
 
  :duct.module/ataraxy
  {[:get "/"] [:index]
@@ -23,7 +29,10 @@
  :film-ratings.handler.film/find-by-name {:db #ig/ref :duct.database/sql}
 
  :duct.migrator/ragtime
- {:migrations [#ig/ref :film-ratings.migrations/create-film]}
+ {:database   #ig/ref :duct.database/sql
+  :logger     #ig/ref :duct/logger
+  :strategy   :rebase
+  :migrations [#ig/ref :film-ratings.migrations/create-film]}
 
  [:duct.migrator.ragtime/sql :film-ratings.migrations/create-film]
  {:up ["CREATE TABLE film (id SERIAL PRIMARY KEY, name TEXT UNIQUE, description TEXT, rating INTEGER);"]

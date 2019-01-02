@@ -1,0 +1,7 @@
+FROM openjdk:8u181-alpine3.8
+
+WORKDIR /
+
+COPY target/film-ratings.jar film-ratings.jar
+
+CMD java -jar film-ratings.jar :duct/migrator

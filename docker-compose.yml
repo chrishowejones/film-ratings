@@ -5,16 +5,24 @@ services:
     ports:
       - '5432:5432'
     environment:
-      - "POSTGRES_USER=test"
-      - "POSTGRES_PASSWORD=password"
-      - "POSTGRES_DB=mytest"
+      - "POSTGRES_USER=filmuser"
+      - "POSTGRES_DB=filmdb"
+      - "POSTGRES_PASSWORD=${DB_PASSWORD}"
+      - "SERVER_PORT=3000"
     volumes:
-      - ./postgresdata:/var/lib/postgresql/data
+      - /tmp/postgresdata:/var/lib/postgresql/data
     build: './database'
-    networks:
-      infranet:
-        aliases:
-          - 'postgres'
-
-networks:
-  infranet:
+  migrations:
+    restart: 'on-failure'
+    environment:
+      - "DB_PASSWORD=${DB_PASSWORD}"
+    build:
+      context: .
+      dockerfile: Dockerfile-migrations
+  filmapp:
+    restart: 'always'
+    ports:
+      - '3000:3000'
+    environment:
+      - "DB_PASSWORD=${DB_PASSWORD}"
+    build: './'

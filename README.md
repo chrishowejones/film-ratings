@@ -67,6 +67,38 @@ But you can also run tests through Leiningen.
 ```sh
 lein test
 ```
+## Running in production
+
+To run in production you will need to set the `DB_PASSWORD` environment
+variable to a password for the postgresql database. You can then bring
+up the postgresql docker instance using `docker-compose`.
+
+``` sh
+docker-compose up
+```
+
+This will use the `DB_PASSWORD` to create a postgresql database. This
+database will use a volume mounted for the data in a directory
+`./postgresdata`.
+If this is the first time you've brought up the `docker-compose`
+process you will need to run migrations to populate the database
+before using it.
+
+You run the migrations like so (make sure the `DB_PASSWORD` env
+variable is set first):
+
+``` sh
+lein run :duct/migrator
+```
+
+Once the table(s) are created you can run the web app itself (make
+sure the `DB_PASSWORD` env variable is set first):
+
+``` sh
+lein run
+```
+
+
 
 ## Legal
 
