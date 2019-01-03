@@ -69,36 +69,34 @@ lein test
 ```
 ## Running in production
 
-To run in production you will need to set the `DB_PASSWORD` environment
-variable to a password for the postgresql database. You can then bring
-up the postgresql docker instance using `docker-compose`.
+First you need to build the uberjar for the application that will be
+included in the docker container(s).
 
 ``` sh
-docker-compose up
+lein do clean, uberjar
+```
+
+You will need to set the `DB_PASSWORD` environment variable to a
+password for the postgresql database. You can then bring up the
+postgresql, migrations and web application docker instances using
+`docker-compose`.
+
+``` sh
+docker-compose up -d
 ```
 
 This will use the `DB_PASSWORD` to create a postgresql database. This
 database will use a volume mounted for the data in a directory
 `./postgresdata`.
-If this is the first time you've brought up the `docker-compose`
-process you will need to run migrations to populate the database
-before using it.
 
-You run the migrations like so (make sure the `DB_PASSWORD` env
-variable is set first):
+The `docker-compose` file starts three services:
 
-``` sh
-lein run :duct/migrator
-```
-
-Once the table(s) are created you can run the web app itself (make
-sure the `DB_PASSWORD` env variable is set first):
-
-``` sh
-lein run
-```
-
-
+    1. Postgres database - with a start up script to create an empty
+    database if not already present.
+    2. Migrations - starts the application passing the
+    `:duct/migrator` key to run database migrations to create the film
+    table.
+    3. FilmApp - starts the web application listening on port 3000
 
 ## Legal
 

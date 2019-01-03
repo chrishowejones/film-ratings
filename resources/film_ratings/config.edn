@@ -29,10 +29,7 @@
  :film-ratings.handler.film/find-by-name {:db #ig/ref :duct.database/sql}
 
  :duct.migrator/ragtime
- {:database   #ig/ref :duct.database/sql
-  :logger     #ig/ref :duct/logger
-  :strategy   :rebase
-  :migrations [#ig/ref :film-ratings.migrations/create-film]}
+ {:migrations [#ig/ref :film-ratings.migrations/create-film]}
 
  [:duct.migrator.ragtime/sql :film-ratings.migrations/create-film]
  {:up ["CREATE TABLE film (id SERIAL PRIMARY KEY, name TEXT UNIQUE, description TEXT, rating INTEGER);"]
