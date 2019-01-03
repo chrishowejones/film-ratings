@@ -4,7 +4,10 @@
  :duct.module/logging {}
  :duct.module.web/site {}
  :duct.module/sql {}
- :duct.database.sql/hikaricp {:jdbc-url "jdbc:postgresql://postgres/filmdb"
+ :duct.database.sql/hikaricp {:adapter "postgresql"
+                              :port-number "5432"
+                              :server-name #duct/env [ "DB_HOST" ]
+                              :database-name "filmdb"
                               :username "filmuser"
                               :password #duct/env [ "DB_PASSWORD" ]}
 

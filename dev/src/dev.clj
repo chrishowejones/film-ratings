@@ -25,3 +25,17 @@
   (load "local"))
 
 (integrant.repl/set-prep! (comp duct/prep read-config))
+
+(comment
+
+  (integrant.repl/go)
+  (integrant.repl/reset)
+  (integrant.repl/halt)
+
+  (require 'ragtime.core)
+
+  ()
+
+
+
+  )

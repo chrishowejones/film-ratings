@@ -1,4 +1,4 @@
-version: '3.2'
+version: '3'
 services:
   postgres:
     restart: 'always'
@@ -9,20 +9,26 @@ services:
       - "POSTGRES_DB=filmdb"
       - "POSTGRES_PASSWORD=${DB_PASSWORD}"
       - "SERVER_PORT=3000"
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: filmapp
+        awslogs-region: eu-west-1
+        awslogs-stream-prefix: postgres
     volumes:
-      - /tmp/postgresdata:/var/lib/postgresql/data
-    build: './database'
-  migrations:
-    restart: 'on-failure'
-    environment:
-      - "DB_PASSWORD=${DB_PASSWORD}"
-    build:
-      context: .
-      dockerfile: Dockerfile-migrations
+      - /var/lib/postgresql/data
+    image: chrishowejones/film-ratings-postgres:firsttry
   filmapp:
     restart: 'always'
     ports:
       - '3000:3000'
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: filmapp
+        awslogs-region: eu-west-1
+        awslogs-stream-prefix: filmapp
     environment:
       - "DB_PASSWORD=${DB_PASSWORD}"
-    build: './'
+      - "DB_HOST=localhost"
+    image: chrishowejones/film-ratings-filmapp:firsttry
