@@ -17,7 +17,7 @@ services:
         awslogs-stream-prefix: postgres
     volumes:
       - /var/lib/postgresql/data
-    image: chrishowejones/film-ratings-postgres:firsttry
+    image: postgresql:alpine
   filmapp:
     restart: 'always'
     ports:

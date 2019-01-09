@@ -7,11 +7,11 @@ services:
     environment:
       - "POSTGRES_USER=filmuser"
       - "POSTGRES_DB=filmdb"
-      - "POSTGRES_PASSWORD=password"
+      - "POSTGRES_PASSWORD=${DB_PASSWORD}"
       - "SERVER_PORT=3000"
     volumes:
       - /tmp/postgresdata:/var/lib/postgresql/data
-    build: './database'
+    image: 'postgres:alpine'
   filmapp:
     restart: 'always'
     ports:
