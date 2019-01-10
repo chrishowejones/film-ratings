@@ -2,13 +2,10 @@ version: '3.0'
 services:
   postgres:
     restart: 'always'
-    ports:
-      - '5432:5432'
     environment:
       - "POSTGRES_USER=filmuser"
       - "POSTGRES_DB=filmdb"
       - "POSTGRES_PASSWORD=${DB_PASSWORD}"
-      - "SERVER_PORT=3000"
     volumes:
       - /tmp/postgresdata:/var/lib/postgresql/data
     image: 'postgres:alpine'

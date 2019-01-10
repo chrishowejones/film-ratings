@@ -2,13 +2,10 @@ version: '3'
 services:
   postgres:
     restart: 'always'
-    ports:
-      - '5432:5432'
     environment:
       - "POSTGRES_USER=filmuser"
       - "POSTGRES_DB=filmdb"
       - "POSTGRES_PASSWORD=${DB_PASSWORD}"
-      - "SERVER_PORT=3000"
     logging:
       driver: awslogs
       options:
@@ -31,4 +28,4 @@ services:
     environment:
       - "DB_PASSWORD=${DB_PASSWORD}"
       - "DB_HOST=localhost"
-    image: chrishowejones/film-ratings-filmapp:firsttry
+    image: chrishowejones/film-ratings-filmapp:latest

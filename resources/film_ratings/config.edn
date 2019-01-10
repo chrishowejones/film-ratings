@@ -5,7 +5,7 @@
  :duct.module.web/site {}
  :duct.module/sql {}
  :duct.database.sql/hikaricp {:adapter "postgresql"
-                              :port-number "5432"
+                              :port-number #duct/env [ "DB_PORT" :or "5432" ]
                               :server-name #duct/env [ "DB_HOST" ]
                               :database-name "filmdb"
                               :username "filmuser"
