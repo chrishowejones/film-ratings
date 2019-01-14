@@ -14,7 +14,7 @@ services:
         awslogs-stream-prefix: postgres
     volumes:
       - /var/lib/postgresql/data
-    image: postgresql:alpine
+    image: postgres:alpine
   filmapp:
     restart: 'always'
     ports:
