@@ -1,6 +1,7 @@
 version: 2.1
 executors:
   docker-publisher:
+    working_directory: ~/cci-film-ratings # directory where steps will run
     environment:
       IMAGE_NAME: chrishowejones/film-ratings-app
     docker:
