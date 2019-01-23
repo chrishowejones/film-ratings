@@ -1,4 +1,10 @@
-version: 2
+version: 2.1
+excutors:
+  docker-publisher:
+    environment:
+      IMAGE_NAME: chrishowejones/film-ratings-app
+    docker:
+      - image: circleci/buildpack-deps:stretch
 jobs:
   build:
     working_directory: ~/cci-film-ratings # directory where steps will run
@@ -49,8 +55,41 @@ jobs:
             echo "CIRCLE_PROJECT_REPONAME: ${CIRCLE_PROJECT_REPONAME}"
             echo "CIRCLE_SHA1: ${CIRCLE_SHA1}"
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete 0.1.0 /artifacts/target/film-ratings.jar
+  build-docker:
+    executor: docker-publisher
+    steps:
+      - attach-workspace:
+          at: .
+      - setup_remote_docker
+      - run:
+          name: Build Docker image
+          command: docker build -t $IMAGE_NAME:latest
+          command: docker build -t $IMAGE_NAME:${CIRCLE_TAG}
+      - run:
+          name: Archive Docker image
+          command: docker save -o image.tar $IMAGE_NAME
+      - persist-to-workspace:
+          root: .
+          paths:
+            - ./image.tar
+  publish-docker:
+    executor: docker-publisher
+    steps:
+      - attach-workspace:
+          at: /artifacts
+      - setup_remote_docker
+      - run:
+          name: Load archived Docker image
+          command: docker load -i /artifacts/image.tar
+      - run:
+          name: Publish Docker Image to Docker Hub
+          command: |
+            echo "$DOCKERHUB_PASS" | docker login -u
+            "$DOCKERHUB_USERNAME" --password-stdin
+            docker push $IMAGE_NAME:latest
+            docker push $IMAGE_NAME:${CIRCLE_TAG}
 workflows:
-  version: 2
+  version: 2.1
   main:
     jobs:
       - build
@@ -65,6 +104,22 @@ workflows:
       - publish-github-release:
           requires:
             - build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+\.\d+$/
+      - build-docker:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^\d+\.\d+\.\d+$/
+      - publish-docker:
+          requires:
+            - build-docker
           filters:
             branches:
               ignore: /.*/
