@@ -58,6 +58,7 @@ jobs:
   build-docker:
     executor: docker-publisher
     steps:
+      - checkout
       - attach_workspace:
           at: .
       - setup_remote_docker
