@@ -1,5 +1,5 @@
 version: 2.1
-excutors:
+executors:
   docker-publisher:
     environment:
       IMAGE_NAME: chrishowejones/film-ratings-app
@@ -35,7 +35,7 @@ jobs:
       - store_artifacts: # upload jar to Artifacts
           path: target/film-ratings.jar
           destination: uberjar/film-ratings.jar
-      - persist-to-workspace:
+      - persist_to_workspace:
           root: ~/cci-film-ratings
           paths:
             - target
@@ -43,7 +43,7 @@ jobs:
     docker:
       - image: cibuilds/github:0.12
     steps:
-      - attach-workspace:
+      - attach_workspace:
           at: /artifacts
       - run:
           name: "Publish Release on GitHub"
@@ -58,24 +58,26 @@ jobs:
   build-docker:
     executor: docker-publisher
     steps:
-      - attach-workspace:
+      - attach_workspace:
           at: .
       - setup_remote_docker
       - run:
-          name: Build Docker image
-          command: docker build -t $IMAGE_NAME:latest
-          command: docker build -t $IMAGE_NAME:${CIRCLE_TAG}
+          name: Build latest Docker image
+          command: docker build . -t $IMAGE_NAME:latest
+      - run:
+          name: Build tagged Docker image
+          command: docker build . -t $IMAGE_NAME:${CIRCLE_TAG}
       - run:
           name: Archive Docker image
           command: docker save -o image.tar $IMAGE_NAME
-      - persist-to-workspace:
-          root: .
+      - persist_to_workspace:
+          root: ~/cci-film-ratings
           paths:
             - ./image.tar
   publish-docker:
     executor: docker-publisher
     steps:
-      - attach-workspace:
+      - attach_workspace:
           at: /artifacts
       - setup_remote_docker
       - run:
@@ -111,7 +113,7 @@ workflows:
               only: /^\d+\.\d+\.\d+$/
       - build-docker:
           requires:
-            - build
+            - publish-github-release
           filters:
             branches:
               ignore: /.*/
