@@ -1,4 +1,4 @@
-version: '3'
+version: '3.0'
 services:
   postgres:
     restart: 'always'
@@ -6,26 +6,16 @@ services:
       - "POSTGRES_USER=filmuser"
       - "POSTGRES_DB=filmdb"
       - "POSTGRES_PASSWORD=${DB_PASSWORD}"
-    logging:
-      driver: awslogs
-      options:
-        awslogs-group: filmapp
-        awslogs-region: eu-west-1
-        awslogs-stream-prefix: postgres
     volumes:
-      - /var/lib/postgresql/data
-    image: postgres:alpine
+      - /tmp/postgresdata:/var/lib/postgresql/data
+    image: 'postgres:alpine'
   filmapp:
     restart: 'always'
     ports:
       - '3000:3000'
-    logging:
-      driver: awslogs
-      options:
-        awslogs-group: filmapp
-        awslogs-region: eu-west-1
-        awslogs-stream-prefix: filmapp
     environment:
       - "DB_PASSWORD=${DB_PASSWORD}"
-      - "DB_HOST=localhost"
-    image: chrishowejones/film-ratings-filmapp:latest
+      - "DB_HOST=postgres"
+    build:
+      context: .
+      dockerfile: Dockerfile

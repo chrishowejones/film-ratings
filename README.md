@@ -93,10 +93,7 @@ The `docker-compose` file starts three services:
 
     1. Postgres database - with a start up script to create an empty
     database if not already present.
-    2. Migrations - starts the application passing the
-    `:duct/migrator` key to run database migrations to create the film
-    table.
-    3. FilmApp - starts the web application listening on port 3000
+    2. FilmApp - runs migrations (if required) & starts the web application listening on port 3000
 
 ## Legal
 
