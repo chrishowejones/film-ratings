@@ -19,7 +19,10 @@
   [:get "/list-films"] [:film/list]
   "/add-film"
   {:get [:film/show-create]
-   [:post {film-form :form-params}] [:film/create film-form]}}
+   [:post {film-form :form-params}] [:film/create film-form]}
+  "/find-by-name"
+  {:get [:film/show-search]
+   [:post {search-form :form-params}] [:film/find-by-name search-form]}}
 
  :film-ratings.handler/index {}
  :film-ratings.handler.film/show-create {}
