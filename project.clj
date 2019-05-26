@@ -1,4 +1,4 @@
-(defproject film-ratings "0.2.0"
+(defproject film-ratings "0.1.2"
   :description "Film rating demo app using Duct."
   :url "http://github.com/chrishowejones/film-ratings"
   :min-lein-version "2.0.0"
