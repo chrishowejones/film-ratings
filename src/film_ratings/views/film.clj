@@ -70,7 +70,7 @@
        [:div.row.alert.alert-success
         [:div.col message]]))]))
 
-(defn search-film-by-name-view
+#_(defn search-film-by-name-view
   []
   (page
    [:div.container.jumbotron.bg-light
