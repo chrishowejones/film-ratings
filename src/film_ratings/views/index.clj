@@ -10,6 +10,6 @@
     [:row
      [:p
       [:a.btn.btn-primary {:href "/list-films"} "List Films"]]]
-    #_[:row
-       [:p
-        [:a.btn.btn-primary {:href "/find-by-name"} "Search Films"]]]]))
+    [:row
+     [:p
+      [:a.btn.btn-primary {:href "/find-by-name-desc"} "Search for Films"]]]]))

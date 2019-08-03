@@ -18,7 +18,7 @@
       [:div.container-fluid
        [:div.navbar.navbar-dark.bg-dark.shadow-sm
         [:div.container.d-flex.justify-content-between
-         [:h1.navbar-brand.align-items-center.text-light "Film Ratings"]
+         [:h1.navbar-brand.align-items-center.text-light (link-to {:class "py-2 text-light"} "/" "Film Ratings")]
          (link-to {:class "py-2 text-light"} "/" "Home")]]
        [:section
         content]]]]))

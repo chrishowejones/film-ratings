@@ -1,6 +1,6 @@
 (ns film-ratings.views.film
-  (:require [film-ratings.views.template :refer [page labeled-radio]]
-            [hiccup.form :refer [form-to label text-field text-area submit-button]]
+  (:require [film-ratings.views.template :refer [labeled-radio page]]
+            [hiccup.form :refer [form-to label submit-button text-area text-field]]
             [ring.util.anti-forgery :refer [anti-forgery-field]]))
 
 (defn create-film-view
@@ -70,17 +70,17 @@
        [:div.row.alert.alert-success
         [:div.col message]]))]))
 
-#_(defn search-film-by-name-view
+(defn search-film-view
   []
   (page
    [:div.container.jumbotron.bg-light
     [:div.row
-     [:h2 "Search for film by name"]]
+     [:h2 "Search for film by name and description"]]
     [:div
-     (form-to [:post "/find-by-name"]
+     (form-to [:post "/find-by-name-desc"]
               (anti-forgery-field)
               [:div.form-group.col-12
-               (label :name "Name:")
-               (text-field {:class "mb-3 form-control" :placeholder "Enter film name"} :name)]
+               (label :name "Search term:")
+               (text-field {:class "mb-3 form-control" :placeholder "Enter search term"} :search-term)]
               [:div.form-group.col-12.text-center
                (submit-button {:class "btn btn-primary text-center"} "Search")])]]))
